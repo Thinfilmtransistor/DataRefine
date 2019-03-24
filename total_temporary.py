@@ -46,7 +46,7 @@ def calculating(rawdatapath, calpath):
     df = pd.read_csv('{}.csv'.format(refine_name))
 
     # df중 CH1열이 0보다 큰 행의 index를 rownumber에 list로 저장한다
-    rownumber = df[df['CH1'] >= 0].index
+    rownumber = df[(df['CH1'] >= 0)& (df['CH2'] >= 0)].index
 
     # rowindecator는 rownumber가 연속해서 존재하는경우 같은 list에 묶어서 보관한다
     rowindecator = []
@@ -87,6 +87,15 @@ def calculating(rawdatapath, calpath):
             rowname.append(i[0] + 2)
             rowname.append(i[-1] + 2)
             print(i[0], i[-1])
+    
+    # data table의 크기를 서로 동일하게 맞춰줌
+    tem_rowname = (rowname[1] - rowname[0]) - (rowname[3] - rowname[2])
+    if tem_rowname > 0:
+        rowname[1] = rowname[1] - tem_rowname
+    elif tem_rowname < 0:
+        rowname[3] = rowname[3] + tem_rowname
+    print(rowname[0], rowname[1])
+    print(rowname[2], rowname[3])
     # ===================================================================================================
 
     # Excel 실행
